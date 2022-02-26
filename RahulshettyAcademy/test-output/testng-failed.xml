@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Rahulshetty Academy Automation]">
+  <parameter name="myurl" value="https://rahulshettyacademy.com/AutomationPractice/"/>
+  <test thread-count="5" name="Rahulshetty test(failed)">
+    <classes>
+      <class name="us.piit.AppTest">
+        <methods>
+          <include name="afterMethod"/>
+          <include name="beforeTest"/>
+          <include name="test8"/>
+          <include name="test7"/>
+        </methods>
+      </class> <!-- us.piit.AppTest -->
+    </classes>
+  </test> <!-- Rahulshetty test(failed) -->
+</suite> <!-- Failed suite [Rahulshetty Academy Automation] -->

@@ -5,15 +5,16 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.awt.datatransfer.SystemFlavorMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.NoSuchElementException;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import static jdk.nashorn.internal.objects.NativeJava.type;
 
 public class AppTest {
 
@@ -30,113 +31,205 @@ public class AppTest {
         driver.manage().window().maximize();
 
 
+
     }
+//    public WebDriver getDriver(String os, String browserName){
+//        if(browserName.equalsIgnoreCase("chrome")){
+//            if(os.equalsIgnoreCase("windows")){
+//                System.setProperty("webdriver.chrome.driver", path+"C:\SeleniumDrivers\chromedriver_win32\chromedriver.exe");
+//            }else if(os.equalsIgnoreCase("mac")){
+//                System.setProperty("webdriver.chrome.driver", path+"C:\SeleniumDrivers\chromedriver_win32\chromedriver.exe");
+//            }
+//            driver = new ChromeDriver();
+//        }else if(browserName.equalsIgnoreCase("firefox")){
+//            if(os.equalsIgnoreCase("windows")){
+//                System.setProperty("webdriver.gecko.driver", path+"C:\SeleniumDrivers\chromedriver_win32\chromedriver.exe");
+//            }else if(os.equalsIgnoreCase("mac")){
+//                System.setProperty("webdriver.gecko.driver", path+"C:\SeleniumDrivers\chromedriver_win32\chromedriver.exe");
+//            }
+//            driver = new FirefoxDriver();
+//        }
+//        return driver;
+//    }
+
 
     @Test
-    public void test1() throws InterruptedException{
-        driver.findElement(By.xpath("//input[@value=\"radio1\"]")).click();
-        Thread.sleep(2000);
-        driver.findElement(By.xpath("//input[@value=\"radio2\"]")).click();
-        Thread.sleep(2000);
-        driver.findElement(By.xpath("//input[@value=\"radio3\"]")).click();
-        Thread.sleep(2000);
+    public void radioButton(){
+        List<WebElement> radioButtons = driver.findElements(By.xpath("//*[@name='radioButton']"));
+        for (WebElement radioButton: radioButtons) {
+            radioButton.click();
 
 
+        }
+        //driver.findElement(By.xpath("//input[@value=\"radio1\"]")).click();
+        //Thread.sleep(2000);
+        //driver.findElement(By.xpath("//input[@value=\"radio2\"]")).click();
+        //Thread.sleep(2000);
+        //driver.findElement(By.xpath("//input[@value=\"radio3\"]")).click();
+        //Thread.sleep(2000);
        }
 
+
     @Test
-    public void test2() throws InterruptedException {
-        driver.findElement(By.id("autocomplete")).sendKeys("can");
-        Thread.sleep(8000);
-        Actions actions = new Actions(driver);
-        actions.sendKeys(Keys.ARROW_DOWN);
-        actions.sendKeys(Keys.ARROW_DOWN);
-        actions.sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ENTER).build().perform();
-        Thread.sleep(10000);
+    public void suggestionDropdown() throws InterruptedException {
+        driver.findElement(By.cssSelector("#autocomplete")).sendKeys("can");
+        List <WebElement> options = driver.findElements(By.xpath("//li[@class='ui-menu-item']"));
+          for (int i = 0; i<options.size(); i++){
+              if (i == 2){
+                  options.get(i).click();
+              }
+//OTHER OPTIONS
+//            if(options.get(i).getText().equals("Central Africa Republic")){
+//                Thread.sleep(5000);
+//                options.get(i).click();
+          //  }
+
+        }
+
+    //public void test2() throws InterruptedException {
+        // actions.moveToElement(driver.findElement(By.cssSelector("#autocomplete")).sendKeys("can");
+        // for(int i = 0; i<4; i++){
+        // driver.findElement(By.cssSelector("autocomplete")).sendKeys(Keys.ARROW_DOWN);
+        // driver.findElement(By.cssSelector("autocomplete")).sendKeys(Keys.ENTER);
     }
 
     @Test
-    public void test3() throws InterruptedException {
+    public void staticDropdown() {
         WebElement element = driver.findElement(By.xpath("//select[@id='dropdown-class-example']"));
-        Select sel =new Select (element);
-        Actions actions = new Actions(driver);
-
-
-        actions.sendKeys(Keys.ARROW_DOWN);
-        actions.sendKeys(Keys.ARROW_DOWN).click();
-        Thread.sleep(4000);
-        sel.selectByVisibleText("Option1");
-
-        driver.findElement(By.id("dropdown-class-example")).click();
-        actions.sendKeys(Keys.ARROW_DOWN);
-        actions.sendKeys(Keys.ARROW_DOWN);
-        actions.sendKeys(Keys.ARROW_DOWN).click();
-        Thread.sleep(4000);
+        Select sel = new Select(element);
         sel.selectByVisibleText("Option2");
-        Thread.sleep(2000);
-
-        driver.findElement(By.id("dropdown-class-example")).click();
-        actions.sendKeys(Keys.ARROW_DOWN);
-        actions.sendKeys(Keys.ARROW_DOWN);
-        actions.sendKeys(Keys.ARROW_DOWN);
-        actions.sendKeys(Keys.ARROW_DOWN).click();
-        Thread.sleep(4000);
-        sel.selectByVisibleText("Option3");Thread.sleep(2000);
-
-
-    }
-    @Test
-    public void test4() throws InterruptedException{
-
-        driver.findElement(By.name("checkBoxOption1")).click();
-        driver.findElement(By.name("checkBoxOption2")).click();
-        driver.findElement(By.name("checkBoxOption3")).click();
-        Thread.sleep(4000);
-        System.out.println(driver.findElements(By.xpath("//input[@type='radio']")).size());
-        Thread.sleep(4000);
-        driver.findElement(By.name("checkBoxOption2")).click();
-        Thread.sleep(4000);
-        System.out.println(driver.findElements(By.xpath("//input[@type='radio']")).size());
-
     }
 
-    @Test
-    public void test5() throws InterruptedException {//NEED TO FINISH
-        driver.findElement(By.id("openwindow")).click();
-        String fWindow = driver.getWindowHandle();
+//    public void test3() throws InterruptedException {
+//        WebElement element = driver.findElement(By.xpath("//select[@id='dropdown-class-example']"));
+//        Select sel =new Select (element);
+//        Actions actions = new Actions(driver);
+//
+//
+//        actions.sendKeys(Keys.ARROW_DOWN);
+//        actions.sendKeys(Keys.ARROW_DOWN).click();
+//        Thread.sleep(4000);
+//        sel.selectByVisibleText("Option1");
+//
+//        driver.findElement(By.id("dropdown-class-example")).click();
+//        actions.sendKeys(Keys.ARROW_DOWN);
+//        actions.sendKeys(Keys.ARROW_DOWN);
+//        actions.sendKeys(Keys.ARROW_DOWN).click();
+//        Thread.sleep(4000);
+//        sel.selectByVisibleText("Option2");
+//        Thread.sleep(2000);
+//
+//        driver.findElement(By.id("dropdown-class-example")).click();
+//        actions.sendKeys(Keys.ARROW_DOWN);
+//        actions.sendKeys(Keys.ARROW_DOWN);
+//        actions.sendKeys(Keys.ARROW_DOWN);
+//        actions.sendKeys(Keys.ARROW_DOWN).click();
+//        Thread.sleep(4000);
+//        sel.selectByVisibleText("Option3");Thread.sleep(2000);
 
-         driver.findElement(By.xpath("//div[@style='position: absolute; inset: 0px; box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px inset;']")).click() ;
-}
+
+
+
+
 
     @Test
-    public void test6() throws InterruptedException {
-        //Alert
-        driver.findElement(By.id("name")).sendKeys("Ashley");
-        driver.findElement(By.id("alertbtn")).click();
-        Alert alert0 = driver.switchTo().alert();
-        System.out.println(alert0.getText());
-        Thread.sleep(2000);
-        alert0.accept();
-        Thread.sleep(2000);
-        //Confirmation Alert
-        driver.findElement(By.id("name")).sendKeys("Ashley");
-        driver.findElement(By.id("confirmbtn")).click();
-        Alert alert1 = driver.switchTo().alert();
-        System.out.println(alert1.getText());
-        Thread.sleep(2000);
-        alert1.accept();
+    public void checkbox(){
+        List<WebElement> checkboxes = driver.findElements(By.xpath("//label//input[@type='checkbox']"));
+        for (WebElement checkbox: checkboxes) {
+            checkbox.click();
+        }
+        for (int i = 0; i < checkboxes.size(); i++) {
+            if(i == 1){
+                Assert.assertTrue(checkboxes.get(i).isSelected());
+                checkboxes.get(i).click();
+                Assert.assertFalse(checkboxes.get(i).isSelected());
+            }
+        }
+    }
+
+
+
+
+//        driver.findElement(By.name("checkBoxOption1")).click();
+//        driver.findElement(By.name("checkBoxOption2")).click();
+//        driver.findElement(By.name("checkBoxOption3")).click();
+//        Thread.sleep(4000);
+//        System.out.println(driver.findElements(By.xpath("//input[@type='radio']")).size());
+//        Thread.sleep(4000);
+//        driver.findElement(By.name("checkBoxOption2")).click();
+//        Thread.sleep(4000);
+//        System.out.println(driver.findElements(By.xpath("//input[@type='radio']")).size());
+
+
+    @Test
+    public void handleNewWindow() throws InterruptedException {
+      driver.findElement(By.xpath("//*[@id='openwindow']")).click();
         Thread.sleep(3000);
-        //Cancellation Alert
-        driver.findElement(By.id("name")).sendKeys("Ashley");
-        driver.findElement(By.id("confirmbtn")).click();
-        Alert alert2 = driver.switchTo().alert();
-        System.out.println(alert2.getText());
-        Thread.sleep(2000);
-        alert2.dismiss();
-        Thread.sleep(3000);
-
-
+        String parentWindow = driver.getWindowHandle();
+        Set<String> windowHandle = driver.getWindowHandles();
+        for (String window: windowHandle) {
+            if(!parentWindow.contentEquals(window)){
+                driver.switchTo().window(window);
+                break;
+            }
+        }
+        driver.findElement(By.xpath("//button[text()='NO THANKS']")).click();
     }
+
+
+
+//    public void test5() throws InterruptedException {//NEED TO FINISH
+//        driver.findElement(By.id("openwindow")).click();
+//        String fWindow = driver.getWindowHandle();
+//
+//         driver.findElement(By.xpath("//div[@style='position: absolute; inset: 0px; box-shadow: rgba(0, 0, 0, 0) 0px 0px 0px inset;']")).click() ;
+//}
+
+   // @Test
+    public void handleTap(){
+        driver.findElement(By.cssSelector("#opentab"));
+        Set<String> windows = driver.getWindowHandles();
+
+        Iterator<String> iterator = windows.iterator();
+        while (iterator.hasNext()){
+            String parentTap = iterator.next();
+            String newTab = iterator.next();
+            driver.switchTo().window(newTab);
+            driver.findElement(By.xpath("//*[text()='Login']"));
+
+        }
+    }
+
+
+
+//    public void test6() throws InterruptedException {
+//        //Alert
+//        driver.findElement(By.id("name")).sendKeys("Ashley");
+//        driver.findElement(By.id("alertbtn")).click();
+//        Alert alert0 = driver.switchTo().alert();
+//        System.out.println(alert0.getText());
+//        Thread.sleep(2000);
+//        alert0.accept();
+//        Thread.sleep(2000);
+//        //Confirmation Alert
+//        driver.findElement(By.id("name")).sendKeys("Ashley");
+//        driver.findElement(By.id("confirmbtn")).click();
+//        Alert alert1 = driver.switchTo().alert();
+//        System.out.println(alert1.getText());
+//        Thread.sleep(2000);
+//        alert1.accept();
+//        Thread.sleep(3000);
+//        //Cancellation Alert
+//        driver.findElement(By.id("name")).sendKeys("Ashley");
+//        driver.findElement(By.id("confirmbtn")).click();
+//        Alert alert2 = driver.switchTo().alert();
+//        System.out.println(alert2.getText());
+//        Thread.sleep(2000);
+//        alert2.dismiss();
+//        Thread.sleep(3000);
+//
+//
+//    }
 
 
     @Test
@@ -183,9 +276,33 @@ public class AppTest {
         }
 
 
+//    }
+//    @Test
+//    public void radioButton(){
+//      List<WebElement> radioButtons = driver.findElements(By.xpath("//*[@name='radioButton']"));
+//      for (WebElement radioButton: radioButtons){
+//          radioButton.click();
+//
+//      }
+
     }
 
-        @AfterMethod
+    @Test
+    public void textManipulation(){
+        //String text = driver.findElement((By.xpath("//div[contains(text(),'Total Amound Collected: 296')]")));
+        
+    }
+
+
+    @Test
+      public void suggest (){
+       // click("#hide-textbox");
+
+}
+
+
+
+    @AfterMethod
     public void afterMethod(){
         driver.manage().timeouts().implicitlyWait(50000, TimeUnit.SECONDS);
         driver.quit();

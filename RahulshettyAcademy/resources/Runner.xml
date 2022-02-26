@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Rahulshetty Academy Automation" parallel="false">
+    <parameter name="myurl" value="https://rahulshettyacademy.com/AutomationPractice/"></parameter>
+        <test name = "Rahulshetty test">
+            <classes>
+                <class name="us.piit.AppTest">
+
+                </class>
+            </classes>
+        </test>
+
+</suite>
